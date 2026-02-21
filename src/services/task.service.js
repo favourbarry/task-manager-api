@@ -4,6 +4,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.createTask = async (data, userId) => {
+
+    const user = await userModel.query().findById(userId);
+    if(!user.is_verified){
+        throw new Error('User must be verified to create tasks');
+    }
     if(!data.title) {
         throw new Error('Title is required');
     }

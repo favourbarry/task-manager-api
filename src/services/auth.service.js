@@ -8,5 +8,5 @@ exports.createUser = async (userData) => {
 };
 
 exports.findByEmail = async (email) => {
-    return await User.query().findOne({email});
+    return await User.query().findOne({email}); 
 };
