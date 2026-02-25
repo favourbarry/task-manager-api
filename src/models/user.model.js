@@ -19,5 +19,13 @@ class User extends Model {
             },
         };
     }
+
+    static async findByEmail(email) {
+        return await this.query().where('email', email).skipUndefined().first();
+    }
+
+    static async createUser(data) {
+        return await this.query().insert(data);
+    }
 }
 module.exports = User;

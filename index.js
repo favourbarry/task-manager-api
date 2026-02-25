@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 5070;
+require('./src/config/knex');
 const taskRoutes = require('./src/routes/task.routes');
 
 app.use(express.json());

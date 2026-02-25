@@ -1,4 +1,5 @@
 const BaseModel = require('./BaseModel');
+const db = require('../config/knex');
 
 class Task extends BaseModel{
     static get tableName() {
@@ -21,4 +22,13 @@ class Task extends BaseModel{
         }
     }
 }
-module.exports = Task;
+
+module.exports = {
+    Task,
+    create: async (data, userId) => {
+        return await db('tasks').insert({...data, user_id: userId}).returning('*');
+    },
+    findAll: async () => {
+        return await db('tasks').select('*');
+    }
+};

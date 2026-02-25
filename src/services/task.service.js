@@ -4,13 +4,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.createTask = async (data, userId) => {
-
-    const user = await userModel.query().findById(userId);
-    if(!user.is_verified){
-        throw new Error('User must be verified to create tasks');
-    }
+    const AppError = require('../utils/AppError');
     if(!data.title) {
-        throw new Error('Title is required');
+        throw new AppError('Title is required', 400);
     }
     return await taskModel.create(data, userId);
 };
@@ -28,9 +24,12 @@ exports.register = async (data) => {
 };
 
 exports.login = async (data) => {
+    if(!data || !data.email || !data.password) {
+        throw new Error('Email and password are required');
+    }
     const user = await userModel.findByEmail(data.email);
     if(!user || !(await bcrypt.compare(data.password, user.password))) {
-        throw new Error('Invalid credentials');
+        throw new Error('Invalid credentials', 400);
     }
     const token = jwt.sign({userId: user.id}, process.env.JWT_SECRET || 'secret', {expiresIn: '24h'});
     return {token, user: {id: user.id, email: user.email, username: user.username}};

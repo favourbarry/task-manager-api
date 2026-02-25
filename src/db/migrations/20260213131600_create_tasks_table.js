@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  return knex.schema.createTable('taks', (table) => {
+  return knex.schema.createTable('tasks', (table) => {
     table.uuid('id').primary().defaultTo(knex.raw('gen_random_uuid()'));
     table.string('title').notNullable();
     table.boolean('completed').defaultTo(false);
