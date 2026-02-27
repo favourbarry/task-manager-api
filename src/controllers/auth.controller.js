@@ -13,7 +13,7 @@ exports.login = async (req, res, next) => {
     try{
         const user = await authService.findByEmail(req.body.email);
         if(!user){
-            return res.status(401).json({message: 'Invalid credentials'});
+            return res.status(401).json({message: 'Invalid credentials.'});
         }
     } catch(error){
         next(error);
