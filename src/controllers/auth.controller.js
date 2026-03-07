@@ -15,6 +15,12 @@ exports.login = async (req, res, next) => {
         if(!user){
             return res.status(401).json({message: 'Invalid credentials.'});
         }
+        const isValid = await authService.validatePassword(req.body.password, user.password);
+        if(!isValid){
+            return res.status(401).json({message: 'Invalid credentials.'});
+        }
+        const token = authService.generateToken(user);
+        res.json({ user: { id: user.id, email: user.email }, token });
     } catch(error){
         next(error);
     }
